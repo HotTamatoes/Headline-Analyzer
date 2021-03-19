@@ -9,7 +9,7 @@ from dateutil.parser import parse
 class WpostScraperSpider(scrapy.Spider):
     name = 'wpost_scraper'
     allowed_domains = ['wsj.com']
-    list_date = []:
+    list_date = []
 
     def make_list():
         for year in range(1995, 2020):
@@ -23,7 +23,7 @@ class WpostScraperSpider(scrapy.Spider):
                         for day in range(1, 28):
                             date = year + "/" + str(month).zfill(2) + "/" + str(day).zfill(2)
                             list_date.add(date)
-                else if (month < 8):
+                elif (month < 8):
                     for day in range(1, 30 + month%2):
                         str date = year + "/" + str(month).zfill(2) + "/" + str(day).zfill(2)
                         list_date.add(date)
@@ -35,5 +35,6 @@ class WpostScraperSpider(scrapy.Spider):
     def start_requests(self):
         url = 'https://www.wsj.com/news/archive/{}'
         list_date = make_list()
-        str i = url.format(year)
+        for i in range(list_date.size()):
+            yield Request(url.format(list_date(i)))
         
