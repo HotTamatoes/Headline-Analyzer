@@ -9,7 +9,7 @@ from dateutil.parser import parse
 class WpostScraperSpider(scrapy.Spider):
     name = 'wpost_scraper' # internet scraper
     allowed_domains = ['wsj.com'] # news platform being scraped
-    list_date = [] # list of dates (used for scraping from wsj.com)
+    list_date # list of dates (used for scraping from wsj.com)
 
     # fills list_date with strings of the following format yyyy/mm/dd Ex: "2020/01/04"
     def make_list():
@@ -40,6 +40,7 @@ class WpostScraperSpider(scrapy.Spider):
         for i in range(list_date.size()):
             yield Request(url.format(list_date(i)))
 
+## NEEDS CHANGING
     def parse(self, response):
         for news in response.css('ul.items>li.row'):
             yield {
