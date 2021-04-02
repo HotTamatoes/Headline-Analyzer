@@ -27,6 +27,11 @@ def initiate_database(scrapedFromWebsite, website):
 
     mycursor.execute("SHOW TABLES LIKE '" + website_analyzed + "'")
     if (len(mycursor.fetchall()) == 0):
+        ## TODO: Figure out table columns
+        ##       - title
+        ##       - url
+        ##       - type (catagory)
+        ##       - date (day/month/year might be better in seperate columns to make for easy sorting of data)
         mycursor.execute("CREATE TABLE " + website_analyzed + " (date VARCHAR(255), headline VARCHAR(255))")
 
     sqlFormula = "INSERT INTO " + website_analyzed + "(date, headline) VALUES (%s, %s)"
@@ -72,7 +77,10 @@ exampleScrape = [("2019/08/17", "Fireman dies in wilfire"),
                       ("2010/05/26", "Time news begins to make magazines"),
                       ("2005/09/01", "TOTAL DRAMA ACTION! New TV show appears")]
 
-# ADD COMMANDS HERE (be careful if u dont use initiate database u need to set the cursor to the database using @MARKER)
-#initiate_database(exampleScrape, "wsjcom")
-#mycursor.execute("USE headlinedb")
-#clearDatabase()
+# ADD COMMANDS HERE (be careful if you dont use initiate database you need to set the cursor to the database using @MARKER)
+# initiate_database(exampleScrape, "wsjcom")
+# mycursor.execute("USE headlinedb")
+# clearDatabase()
+
+# printAllData()
+
