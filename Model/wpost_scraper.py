@@ -5,16 +5,17 @@ from scrapy import Request
 
 from dateutil.parser import parse
 
+# To run the scraper
+# scrapy runspider wpost_scraper.py -o wpost_scraper.csv
+# scrapy runspider cnet_scraper.py -o cnet_scraper.json
+
 
 class WpostScraperSpider(scrapy.Spider):
     
-    def __init__(self):
-        print("TEST 1")
-        name = 'wpost_scraper' # internet scraper
-        allowed_domains = ['wsj.com'] # news platform being scraped
-        list_date = ["2020/01/01"] # list of dates (used for scraping from wsj.com)
-
-        start_requests(self)
+    print("TEST 1")
+    name = 'wpost_scraper' # internet scraper
+    allowed_domains = ['wsj.com'] # news platform being scraped
+    list_date = ["2020/01/01"] # list of dates (used for scraping from wsj.com)
 
     # fills list_date with strings of the following format yyyy/mm/dd Ex: "2020/01/04"
     def make_list():
@@ -43,9 +44,10 @@ class WpostScraperSpider(scrapy.Spider):
     def start_requests(self):
         print("TEST 3")
         url = 'https://www.wsj.com/news/archive/{}'
-        # list_date = make_list()
+        # list_date = make_list()  #TODO: remove this when total
         for i in range(list_date.size()):
-            yield Request(url.format(list_date(i)))
+            # yield Request(url.format(list_date(i)))
+            print(url.format(list_date(i)))
 
 ## NEEDS CHANGING
     def parse(self, response):
@@ -61,14 +63,12 @@ class WpostScraperSpider(scrapy.Spider):
                 # 'published_date': parse(news.css('div.date::text').extract_first()).strftime('%Y-%m-%d'),
             }
 
-            next_page = response.css('a.next::attr(href)').extract_first()
-            if next_page:
-                yield Request(response.urljoin(next_page))
+            # next_page = response.css('a.next::attr(href)').extract_first()
+            # if next_page:
+            #     yield Request(response.urljoin(next_page))
 
 
 ## TESTING
 
-
-    # start_requests()
 
         
