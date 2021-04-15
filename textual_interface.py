@@ -1,5 +1,5 @@
-import Model.mySQL_interface
-import Model.wpost_scraper
+import Model.mySQL_interface as mySQL_interface
+import Model.politico_scraper as politico_scraper
 
 def welcome_message():
     print("Hello and welcome to the Headline Analyzer!\n Please type one of the following commands to interact with our program!\n")
@@ -44,8 +44,8 @@ def deletion():
 
 def build_scrape_and_database():
     ##start scraper!!!!!!
-    dataTuples = wpost_scraper.getData()
-    mySQL_interface.initiate_database(dataTuples, "wsjcom")
+    dataTuples = politico_scraper.create_tuple()
+    mySQL_interface.initiate_database(dataTuples, "politico")
 
 # RUNNING STARTS HERE
 
