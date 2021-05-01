@@ -1,56 +1,77 @@
 import Model.mySQL_interface as mySQL_interface
 import Model.politico_scraper as politico_scraper
 
+## IMPORTANT NOTES:
+#      - for the switches, the functions pointed to must have no arguments
+#                          also need to be the names without the parentheses
+
+
+
+
+
+global last_switch_used
+
 def welcome_message():
     print("Hello and welcome to the Headline Analyzer!\n Please type one of the following commands to interact with our program!\n")
 
 def options():
-    print("\t - \"b\" to begin\n\t - \"s\" for sorting options\n\t - \"d\" for deletion options\n\t = \"x\" to exit\n")
+    print("\t - \"1\" to begin\n\t - \"2\" for sorting options\n\t - \"3\" for deletion options\n\t - \"4\" to see all data in the table\n\t - \"0\" to exit\n")
 
 def sorting_options():
-    print("")
+    print("Sorry there are none")
 
 def deletion_options():
-    print("\t - \"a\" to delete all (including database)\n\t - \"s\" to delete all entries containing a snippet\n\t - \"d\" to delete at a specific date\n\t = \"x\" to go back to the main menu\n")
+    print("\t - \"1\" to delete all (including database)\n\t - \"2\" to delete all entries containing a snippet\n\t - \"3\" to delete at a specific date\n\t = \"0\" to go back to the main menu\n")
 
-def retryInput(funcPtr):
+def beep_boop():
+    print("Beep Boop it's main menu time")
+
+def death_message():
+    print("Goodbye! *waves*")
+
+
+def retryInput():
     nput = input("Invalid input, Try again: ")
-    funcPtr(nput)
+    last_switch_used(int(nput))
 
 def switch(argument):
     switches = {
-        "b": build_scrape_and_database(),
-        "s": sorting(),
-        "d": deletion(),
-        "x": print("Goodbye! *waves*")
+        0: death_message,
+        1: build_scrape_and_database,
+        2: sorting,
+        3: deletion,
+        4: mySQL_interface.printAllData
     }
-    func = switches.get(argument, retryInput(switch))
+    func = switches.get(argument, retryInput)
+    last_switch_used = switch
     func()
 
 def sorting_switch(argument):
-    switches = {}
-    func = switches.get(argument, retryInput(sorting_switch))
+    switches = {} ### !!! Todo
+    func = switches.get(argument, retryInput)
+    last_switch_used = sorting_switch
     func()
     
 def deletion_switch(argument):
     switches = {
-        "a": mySQL_interface.clearDatabase(),
-        "s": delete_snippet(),
-        "d": delete_date(),
-        "x": print("Beep Boop it's main menu time")
+        0: beep_boop,
+        1: mySQL_interface.clearDatabase,
+        2: delete_snippet,
+        3: delete_date,
     }
-    func = switches.get(argument, retryInput(sorting_switch))
+    func = switches.get(argument, retryInput)
+    last_switch_used = deletion_switch
     func()
 
 def sorting():
     sorting_options()
     nput = input("")
-    sorting_switch(nput)
+    #sorting_switch(int(nput)) ## !!! uncomment when implemented
 
 def deletion():
     deletion_options()
     nput = input("")
-    deletion_switch(nput)
+    deletion_switch(int(nput))
 
 def delete_snippet():
     nput = input("Enter the snippet here (ex: \"the\" deletes all entries containing the word the): ")
@@ -63,17 +84,21 @@ def delete_date():
     mySQL_interface.deleteHeadlineAtDate(nput1 + "/" + nput2 + "/" + nput3) ##### !!! THIS NEEDS FIXING <- based on how the year month day are stored in the db
 
 def build_scrape_and_database():
-    ##start scraper!!!!!!
-    print("Beep Boop we are filling your database now! (This may take up to 10 mins)\n")
-    dataTuples = politico_scraper.create_tuple()
-    mySQL_interface.initiate_database(dataTuples, "politico")
-    print("database is served!\n")
+    nput = input("Type 1 if you have already created a database, otherwise hit enter\n")
+    if(nput == "1"):
+        mySQL_interface.point_cursor_to_db("politico")
+    else:
+        ##start scraper!!!!!!
+        print("Beep Boop we are filling your database now! (This may take up to 10 mins)\n")
+        dataTuples = politico_scraper.create_tuple()
+        mySQL_interface.initiate_database(dataTuples, "politico")
+        print("database is served!\n")
 
 # RUNNING STARTS HERE
 
 welcome_message()
-nput = ""
-while(nput != "x"):
+nput = -1
+while(nput != 0):
     options()
-    nput = input("")
+    nput = int(input(""))
     switch(nput)

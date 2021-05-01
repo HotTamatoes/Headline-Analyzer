@@ -2,13 +2,15 @@ import mysql.connector
 
 # website_analyzed is the name for the website 
 website_analyzed = ""
+sqlFormula = ""
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     passwd="PZZwsmapE4-Uk:6"
 )
+
 mycursor = mydb.cursor()
-sqlFormula = ""
 
 
 # Initiates the database and adds the data into it. If there is already a database, it adds the elements to the existing database
@@ -40,12 +42,25 @@ def initiate_database(scrapedFromWebsite, website):
     mycursor.executemany(sqlFormula, scrapedFromWebsite)
     mydb.commit()
 
+def point_cursor_to_db(website):
+    try:
+        mycursor.execute("USE headlinedb")
+        website_analyzed = website
+        sqlFormula = "INSERT INTO " + website_analyzed + "(date, headline) VALUES (%s, %s)"
+        print("|" + website_analyzed + "|")
+    except:
+        print("headlinedb not found, please generate db")
+
 # Prints all the data to the standard output location (terminal)
 def printAllData():
-    mycursor.execute("SELECT * FROM wsjcom")
+    try:
+        mycursor.execute("SELECT * FROM politico") ## !!! CAREFUL
+    except:
+        print("Please select/create a database")
 
     for row in mycursor.fetchall():
         print(row)
+    print("Beep Boop All Done!")
 
 # add the element to the database
 def addToDatabase(listOfTuple):
