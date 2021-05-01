@@ -55,7 +55,7 @@ def addToDatabase(listOfTuple):
 # delete the entries in the database with the given string date
 # yearMonthDay is a string containing the date to delete Ex: "2000/01/01"
 def deleteAllAtDate(yearMonthDay):
-    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE date = '" + yearMonthDay + "'")
+    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE date = '" + yearMonthDay + "'") #### !!! THIS NEEDS FIXING
     mydb.commit()
 
 # delete the entries in the database with the given snippet
@@ -77,7 +77,7 @@ exampleScrape = [("2019/08/17", "Fireman dies in wilfire"),
                       ("2010/05/26", "Time news begins to make magazines"),
                       ("2005/09/01", "TOTAL DRAMA ACTION! New TV show appears")]
 
-# ADD COMMANDS HERE (be careful if you dont use initiate database you need to set the cursor to the database using @MARKER)
+# ADD COMMANDS HERE FOR TESTING (be careful if you dont use initiate database you need to set the cursor to the database using @MARKER)
 # initiate_database(exampleScrape, "wsjcom")
 # mycursor.execute("USE headlinedb")
 # clearDatabase()
