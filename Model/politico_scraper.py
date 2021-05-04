@@ -35,12 +35,12 @@ def create_tuple():
         articles = soup.find_all('article')
 
         for article in articles:
-            print(get_authors(article))
+            #print(get_authors(article))
             article_tuple = tuple((get_category(article), get_title(article), get_authors(article),
                                     get_link(article), get_subheader(article), get_date_time(article)))
             scraped_info.append(article_tuple)
 
-    print(len(scraped_info))
+    #print(len(scraped_info))
     return scraped_info
 
 ## Returns list of urls comprising of all politico archives
@@ -90,5 +90,3 @@ def get_date_time(article):
     return article.time.string
     ## returns as YYYY-MM-DDT00:00-0000 (not sure exactly what format is -- run to check)
     # return article.time.get('datetime')
-
-create_tuple()

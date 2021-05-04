@@ -66,13 +66,13 @@ def addToDatabase(listOfTuple):
 # delete the entries in the database with the given string date
 # yearMonthDay is a string containing the date to delete Ex: "2000/01/01"
 def deleteAllAtDate(yearMonthDay):
-    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE dateAndTime = '" + yearMonthDay + "'") #### !!! THIS NEEDS FIXING
+    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE dateAndTime LIKE '" + yearMonthDay + "'") #### !!! THIS NEEDS FIXING
     mydb.commit()
 
 # delete the entries in the database with the given snippet
 # snippet is a string. Any headline that contains this string will be deleted Ex: "the" <- will delete any entry containing 'the'
 def deleteHeadlineContaining(snippet):
-    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE title = '%" + snippet + "%'")
+    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE title LIKE '%" + snippet + "%'")
     mydb.commit()
 
 # delete the database and all of its information
