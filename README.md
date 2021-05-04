@@ -4,4 +4,3 @@
 - Store in SQL database
 - Analyze
 
-A similar project: https://github.com/sagunsh/cnet_analysis
