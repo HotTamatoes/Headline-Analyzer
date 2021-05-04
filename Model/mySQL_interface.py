@@ -36,7 +36,7 @@ def initiate_database(scrapedFromWebsite, website):
         ##       - date (day/month/year might be better in seperate columns to make for easy sorting of data)
         mycursor.execute("CREATE TABLE " + website_analyzed + " (category VARCHAR(255), title VARCHAR(255), authors VARCHAR(255), link VARCHAR(255), subheader VARCHAR(255), dateAndTime VARCHAR(255))")
 
-    sqlFormula = "INSERT INTO " + website_analyzed + "(date, headline) VALUES (%s, %s)"
+    sqlFormula = "INSERT INTO " + website_analyzed + "(category, title, authors, link, subheader, dateAndTime) VALUES (%s, %s, %s, %s, %s, %s)"
 
     #uses the sqlFormula to put the data in the database
     mycursor.executemany(sqlFormula, scrapedFromWebsite)
