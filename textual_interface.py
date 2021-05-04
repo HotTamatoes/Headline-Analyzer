@@ -21,7 +21,7 @@ def sorting_options():
     print("Sorry there are none")
 
 def deletion_options():
-    print("\t - \"1\" to delete all (including database)\n\t - \"2\" to delete all entries containing a snippet\n\t - \"3\" to delete at a specific date\n\t = \"0\" to go back to the main menu\n")
+    print("\t - \"1\" to delete all (including database)\n\t - \"2\" to delete all entries with the title containing a snippet\n\t - \"3\" to delete at a specific date\n\t = \"0\" to go back to the main menu\n")
 
 def beep_boop():
     print("Beep Boop it's main menu time")

@@ -1,7 +1,7 @@
 import mysql.connector
 
 # website_analyzed is the name for the website 
-website_analyzed = ""
+website_analyzed = "politico"
 sqlFormula = ""
 
 mydb = mysql.connector.connect(
@@ -25,8 +25,6 @@ def initiate_database(scrapedFromWebsite, website):
 
     mycursor.execute("USE headlinedb") #@MARKER
 
-    website_analyzed = website
-
     mycursor.execute("SHOW TABLES LIKE '" + website_analyzed + "'")
     if (len(mycursor.fetchall()) == 0):
         ## TODO: Figure out table columns
@@ -45,8 +43,7 @@ def initiate_database(scrapedFromWebsite, website):
 def point_cursor_to_db(website):
     try:
         mycursor.execute("USE headlinedb")
-        website_analyzed = website
-        sqlFormula = "INSERT INTO " + website_analyzed + "(date, headline) VALUES (%s, %s)"
+        sqlFormula = "INSERT INTO " + website_analyzed + "(category, title, authors, link, subheader, dateAndTime) VALUES (%s, %s, %s, %s, %s, %s)"
     except:
         print("headlinedb not found, please generate db")
 
@@ -69,13 +66,13 @@ def addToDatabase(listOfTuple):
 # delete the entries in the database with the given string date
 # yearMonthDay is a string containing the date to delete Ex: "2000/01/01"
 def deleteAllAtDate(yearMonthDay):
-    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE date = '" + yearMonthDay + "'") #### !!! THIS NEEDS FIXING
+    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE dateAndTime = '" + yearMonthDay + "'") #### !!! THIS NEEDS FIXING
     mydb.commit()
 
 # delete the entries in the database with the given snippet
 # snippet is a string. Any headline that contains this string will be deleted Ex: "the" <- will delete any entry containing 'the'
 def deleteHeadlineContaining(snippet):
-    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE headline = '%" + snippet + "%'")
+    mycursor.execute("DELETE FROM " + website_analyzed + " WHERE title = '%" + snippet + "%'")
     mydb.commit()
 
 # delete the database and all of its information
